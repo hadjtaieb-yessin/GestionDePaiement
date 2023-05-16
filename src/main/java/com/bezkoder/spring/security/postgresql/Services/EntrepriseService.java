@@ -18,13 +18,17 @@ public class EntrepriseService {
     public EntrepriseService(EntrepriseRepository entrepriseRepository) {
         this.entrepriseRepository=entrepriseRepository;
     }
-
-
     public List<Entreprise> getAllEse() {
         return entrepriseRepository.findAll();
     }
 
+    public Entreprise isDataExist(Entreprise reqData) {
+        return entrepriseRepository.findByEmail(reqData.getEmail());
+    }
 
+    public Object createEntreprise(Entreprise reqData) {
+        return entrepriseRepository.save(reqData);
+    }
 
 
 }
