@@ -30,5 +30,17 @@ public class EntrepriseService {
         return entrepriseRepository.save(reqData);
     }
 
+    public void saveOrUpdate (Entreprise entreprise){
+        entrepriseRepository.save(entreprise);
+    }
+
+    public void deleteEse (Long id){
+        entrepriseRepository.deleteById(id);
+    }
+
+    public void UpdateEse (Entreprise entreprise, Long id){
+        entrepriseRepository.save(entreprise);
+    }
+
 
 }

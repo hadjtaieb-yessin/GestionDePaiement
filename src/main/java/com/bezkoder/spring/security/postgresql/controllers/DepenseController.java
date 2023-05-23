@@ -1,35 +1,35 @@
 package com.bezkoder.spring.security.postgresql.controllers;
 
-import com.bezkoder.spring.security.postgresql.Services.EntrepriseService;
+
+import com.bezkoder.spring.security.postgresql.Services.DepenseService;
 import com.bezkoder.spring.security.postgresql.bean.BeanValidator;
 import com.bezkoder.spring.security.postgresql.bean.ResultDTO;
-import com.bezkoder.spring.security.postgresql.models.Entreprise;
+import com.bezkoder.spring.security.postgresql.models.Depense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin (origins = "http://localhost:8080")
 @RestController
-@RequestMapping ("/api/entreprise")
-public class EntrepriseController {
+@RequestMapping ("/api/depense")
+public class DepenseController {
 
     @Autowired
-    EntrepriseService entrepriseService;
+    DepenseService depenseService;
 
     @Autowired
     private BeanValidator beanValidator;
 
-
-    @GetMapping("/AllEntreprises")
-    public ResponseEntity<?> allEntreprise() {
-        System.err.println(":::  EseController.getentreprise :::");
+    @GetMapping("/AllDepense")
+    public ResponseEntity<?> allDepenses() {
+        System.err.println(":::  DepenseController.getdepense :::");
         ResultDTO<?> responsePacket = null;
         try {
-            responsePacket = new ResultDTO<>(entrepriseService.getAllEse(), "entreprise fetched successfully !!", true);
+            responsePacket = new ResultDTO<>(depenseService.getAllDepenses(), "depense fetched successfully !!", true);
             return new ResponseEntity<>(responsePacket, HttpStatus.OK);
         } catch (Exception e) {
             responsePacket = new ResultDTO<>(e.getMessage(), false);
@@ -37,20 +37,20 @@ public class EntrepriseController {
         }
     }
 
-    @PostMapping("/createEse")
-    public ResponseEntity<?> createEntreprise(@RequestBody Entreprise reqData) {
-        System.err.println(":::  EseController.create Ese :::");
+    @PostMapping("/createDepense")
+    public ResponseEntity<?> createDepense(@RequestBody Depense reqData) {
+        System.err.println(":::  DepenseController.create Depense :::");
         ResultDTO<?> responsePacket = null;
         try {
-            ArrayList<String> errorList = beanValidator.entrepriseValidate(reqData);
+            ArrayList<String> errorList = beanValidator.depenseValidate(reqData);
             if (errorList.size() != 0) {
                 ResultDTO<ArrayList<String>> errorPacket = new ResultDTO<>(errorList,
                         "Above fields values must not be empty", false);
                 return new ResponseEntity<>(errorPacket, HttpStatus.BAD_REQUEST);
             }
-            Entreprise isData = entrepriseService.isDataExist(reqData);
+            Optional<Depense> isData = depenseService.isDataExist(reqData);
             if (isData == null) {
-                responsePacket = new ResultDTO<>(entrepriseService.createEntreprise(reqData), "Entreprise Created Successfully", true);
+                responsePacket = new ResultDTO<>(depenseService.createDepense(reqData), "Depense Created Successfully", true);
                 return new ResponseEntity<>(responsePacket, HttpStatus.OK);
             } else {
                 responsePacket = new ResultDTO<>("Record already exist", false);
@@ -62,15 +62,15 @@ public class EntrepriseController {
         }
     }
 
-    @DeleteMapping ("/DeleteEse/{id}")
-    private void deleteEse (@PathVariable ("id") Long id){
-        entrepriseService.deleteEse(id);
+    @DeleteMapping ("deleteDepense/{id}")
+    private void deleteDepense (@PathVariable ("id") Long id) {
+        depenseService.deleteDepense(id);
     }
 
-    @PutMapping ("/UpdateEse")
-    private Entreprise UpdateEse (@RequestBody Entreprise entreprise){
-        entrepriseService.saveOrUpdate(entreprise);
-        return entreprise;
+    @PutMapping ("updateDepense")
+    private Depense updateDepense (@RequestBody Depense depense) {
+        depenseService.saveOrUpdate(depense);
+        return depense;
     }
 
 
