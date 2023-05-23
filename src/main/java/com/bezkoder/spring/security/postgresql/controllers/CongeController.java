@@ -1,35 +1,36 @@
 package com.bezkoder.spring.security.postgresql.controllers;
 
-import com.bezkoder.spring.security.postgresql.Services.EntrepriseService;
+
+import com.bezkoder.spring.security.postgresql.Services.CongeService;
 import com.bezkoder.spring.security.postgresql.bean.BeanValidator;
 import com.bezkoder.spring.security.postgresql.bean.ResultDTO;
-import com.bezkoder.spring.security.postgresql.models.Entreprise;
+import com.bezkoder.spring.security.postgresql.models.Conge;
+import com.bezkoder.spring.security.postgresql.models.Departement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin (origins = "http://localhost:8080")
 @RestController
-@RequestMapping ("/api/entreprise")
-public class EntrepriseController {
+@RequestMapping("/api/conge")
+public class CongeController {
 
     @Autowired
-    EntrepriseService entrepriseService;
+    CongeService congeService;
 
     @Autowired
     private BeanValidator beanValidator;
 
-
-    @GetMapping("/AllEntreprises")
-    public ResponseEntity<?> allEntreprise() {
-        System.err.println(":::  EseController.getentreprise :::");
+    @GetMapping("/AllConges")
+    public ResponseEntity<?> allConges() {
+        System.err.println(":::  CongeController.getconge :::");
         ResultDTO<?> responsePacket = null;
         try {
-            responsePacket = new ResultDTO<>(entrepriseService.getAllEse(), "entreprise fetched successfully !!", true);
+            responsePacket = new ResultDTO<>(congeService.getAllConges(), "conge fetched successfully !!", true);
             return new ResponseEntity<>(responsePacket, HttpStatus.OK);
         } catch (Exception e) {
             responsePacket = new ResultDTO<>(e.getMessage(), false);
@@ -37,20 +38,20 @@ public class EntrepriseController {
         }
     }
 
-    @PostMapping("/createEse")
-    public ResponseEntity<?> createEntreprise(@RequestBody Entreprise reqData) {
-        System.err.println(":::  EseController.create Ese :::");
+    @PostMapping("/createConge")
+    public ResponseEntity<?> createConge(@RequestBody Conge reqData) {
+        System.err.println(":::  CongeController.create Conge :::");
         ResultDTO<?> responsePacket = null;
         try {
-            ArrayList<String> errorList = beanValidator.entrepriseValidate(reqData);
+            ArrayList<String> errorList = beanValidator.congeValidate(reqData);
             if (errorList.size() != 0) {
                 ResultDTO<ArrayList<String>> errorPacket = new ResultDTO<>(errorList,
                         "Above fields values must not be empty", false);
                 return new ResponseEntity<>(errorPacket, HttpStatus.BAD_REQUEST);
             }
-            Entreprise isData = entrepriseService.isDataExist(reqData);
+            Optional<Conge> isData = congeService.isDataExist(reqData);
             if (isData == null) {
-                responsePacket = new ResultDTO<>(entrepriseService.createEntreprise(reqData), "Entreprise Created Successfully", true);
+                responsePacket = new ResultDTO<>(congeService.createConge(reqData), "Conge Created Successfully", true);
                 return new ResponseEntity<>(responsePacket, HttpStatus.OK);
             } else {
                 responsePacket = new ResultDTO<>("Record already exist", false);
@@ -62,15 +63,15 @@ public class EntrepriseController {
         }
     }
 
-    @DeleteMapping ("/DeleteEse/{id}")
-    private void deleteEse (@PathVariable ("id") Long id){
-        entrepriseService.deleteEse(id);
+    @DeleteMapping ("deleteConge/{id}")
+    private void deleteConge (@PathVariable ("id") Long id) {
+        congeService.deleteConge(id);
     }
 
-    @PutMapping ("/UpdateEse")
-    private Entreprise UpdateEse (@RequestBody Entreprise entreprise){
-        entrepriseService.saveOrUpdate(entreprise);
-        return entreprise;
+    @PutMapping ("updateConge")
+    private Conge updateConge (@RequestBody Conge conge) {
+        congeService.saveOrUpdate(conge);
+        return conge;
     }
 
 
