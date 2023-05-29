@@ -108,5 +108,59 @@ public class BeanValidator {
         return arrayList;
     }
 
+    public ArrayList<String> employeValidate(Employe employe) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        Set<ConstraintViolation<Employe>> constraintViolations = getValidator().validate(employe);
+        for (ConstraintViolation<Employe> constraintViolation : constraintViolations) {
+            if (constraintViolation.getPropertyPath().toString().equals("phone_number")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("nom")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("prenom")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("email")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("hire_date")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("isActive")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("salaire")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("position")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+
+        }
+        return arrayList;
+    }
+
+    public ArrayList<String> paimentPersonnelValidate(PaiementPersonnel paiementPersonnel ) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        Set<ConstraintViolation<PaiementPersonnel>> constraintViolations = getValidator().validate(paiementPersonnel);
+        for (ConstraintViolation<PaiementPersonnel> constraintViolation : constraintViolations) {
+            if (constraintViolation.getPropertyPath().toString().equals("salaireBrut")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("salaireNet")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("prime")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+            if (constraintViolation.getPropertyPath().toString().equals("avance")) {
+                arrayList.add(constraintViolation.getMessage());
+            }
+
+        }
+        return arrayList;
+    }
+
 
 }

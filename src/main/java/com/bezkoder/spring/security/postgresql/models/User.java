@@ -43,8 +43,6 @@ public class User {
 	@JoinTable (name = "entreprise_users")
 	private Entreprise entreprise;
 
-	@OneToMany (cascade = CascadeType.ALL, mappedBy = "user")
-	private List<Conge> conges;
 
 
 	public User() {
