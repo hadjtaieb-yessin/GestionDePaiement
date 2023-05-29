@@ -36,8 +36,8 @@ public class Conge implements Serializable {
     private EConge type;
 
     @ManyToOne
-    @JoinTable(name = "user_conges")
-    private User user;
+    @JoinTable(name = "employe_conges")
+    private Employe employe;
 
 
 }

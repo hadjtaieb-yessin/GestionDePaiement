@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,6 +36,9 @@ public class Departement implements Serializable {
     @ManyToOne
     @JoinTable(name = "entreprise_departements")
     private Entreprise entreprise;
+
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "departement")
+    private List<Employe> employes;
 
 
 
